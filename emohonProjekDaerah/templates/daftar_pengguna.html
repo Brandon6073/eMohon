@@ -1,0 +1,86 @@
+{% extends "base.html" %} {% block title %}DAFTAR PENGGUNA{% endblock %} {% block content%}
+
+
+<a href="/maklumat_pengguna" ><i class="bi bi-arrow-left-circle-fill" style="font-size: 2rem;"></i></a>
+
+<h1 align="center">eMohon Projek Daerah Tambunan</h1><br>
+<h3 align="center">DAFTAR PENGGUNA</h3><hr>
+
+<!--<div class="msg">{{ msg }}</div>-->
+
+
+
+<div class="d-flex justify-content-center" >
+<form action="/daftar_pengguna" method="post" autocomplete="off" >
+   
+
+    <!--Bahagian_pengguna -> kampung -->
+
+    <div class="form-group row">
+      <label for="kampung_id" class="col-sm-4 col-form-label">KAMPUNG</label>
+      <div class="col-sm-8">
+        <select 
+        id="kampung_id" 
+        name="kampung_id"
+        type="text"
+        class="form-control"
+        >
+        <option disabled selected >SILA PILIH</option>
+
+      {%for kampung in data_kampung %}
+          <option  value="{{kampung.0}}" >{{kampung.1}}</option>
+      {% endfor%}
+        
+      </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="ic_pengguna" class="col-sm-4 col-form-label">NO KAD PENGENALAN PENGGUNA</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name = "ic_pengguna" id="ic_pengguna" placeholder="CONTOH: 111111001111">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="nama_pengguna" class="col-sm-4 col-form-label">NAMA PENGGUNA</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name = "nama_pengguna" id="nama_pengguna" placeholder="NAMA">
+        </div>
+    </div>
+    
+   <div class="form-group row">
+      <label for="jenis_pengguna" class="col-sm-4 col-form-label">JENIS PENGGUNA</label>
+      <div class="col-sm-8">
+          <select id="jenis_pengguna" class="form-control" name="jenis_pengguna" type="text">
+          <option disabled selected>SILA PILIH</option>
+          <option value=" 1">PEMOHON PROJEK</option>
+          <option value ="2">PENGURUS PROJEK</option>
+          <option value ="3">PENYELENGGARA</option>
+
+          </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="kata_laluan" class="col-sm-4 col-form-label">KATA LALUAN</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" name = "kata_laluan" id="kata_laluan" placeholder="KATA LALUAN">
+      </div>
+  </div>
+
+
+
+    
+    <div class="d-flex justify-content-center">
+      
+      <div class="float-right"><button type="submit" class="btn btn-primary btn-lg" align=center>SIMPAN</button></div>
+    </div>
+    <br><hr>
+
+</form>
+</div>
+
+
+
+{% endblock %}

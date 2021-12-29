@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block title %}AKSES GAGAL{% endblock %}
+
+{% block content%}
+{%if user %}
+<a href="/menu" ><i class="bi bi-arrow-left-circle-fill" style="font-size: 2rem;"></i></a>
+{%endif%}
+<br><br>
+  <h3 align="center">AKSES TIDAK DIBENARKAN</h3>
+  <br><br>
+{% endblock %}
+  

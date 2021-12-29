@@ -1,0 +1,223 @@
+{% extends "layout.html" %}
+{% block link %}
+<link rel="stylesheet" href="../static/css/table.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+{% endblock %}
+{% block content %}
+<div align="center" class="alert-success" role="alert">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+<div class="container">
+    <br>
+    <a href="/menu" ><i class="bi bi-arrow-left-circle-fill" style="font-size: 2rem;"></i> </a>
+    <br>
+    <div>
+        <h1 align="center">LAPORAN PROJEK (DILULUSKAN)</h1>
+    </div>
+    <br>
+    <br>
+    <!-- link to federal and state
+    <div class="container-fluid" style="text-align:center;">
+        <div class="row">
+            <div class="col">
+                <div class="jumbotron p-1">
+                    <a class="d-block" href="/federal">PERSEKUTUAN</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="jumbotron p-1">
+                    <a class="d-block" href="/state">NEGERI</a>
+                </div>
+            </div>
+        </div>
+    </div><br><br>
+    -->
+    <div class="container">
+        <form action="/cari" method="POST">
+            <div class="row">
+                <label for="tahun" class="col-form-label">TAHUN : </label>
+                <div class="col-sm-2">
+                    <select id="tahun" class="form-control" name="tahun" type="text">
+                        <option selected value = "">SEMUA</option>
+                        {% for tahun in tahun %}
+                        <option  value="{{tahun.0}}" >{{tahun.0}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+
+                <label for="kampung_id" class="col-form-label">KAMPUNG : </label>
+                <div class="col-sm-2">
+                    <select id="kampung_id" class="form-control" name="kampung_id" type="text">
+                        <option selected value = "" >SEMUA</option>
+                        {% for kampung in kampung %}
+                        <option  value="{{kampung.0}}" >{{kampung.0}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+
+                <label for="mukim_id" class="col-form-label">MUKIM : </label>
+                <div class="col-sm-2">
+                    <select id="mukim_id" class="form-control" name="mukim_id" type="text">
+                        <option selected value = "" >SEMUA</option>
+                        {% for mukim in mukim %}
+                        <option  value="{{mukim.0}}" >{{mukim.0}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <input type="text" class="form-control" id="no_projek_waran" name="no_projek_waran" placeholder="NO. SURATKUASA/WARAN">
+                </div>
+
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary"  align=right><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr>
+    <div class= "row">
+        <div class = "col-3">
+            <a class="btn btn-primary " href="/input"><i class="bi bi-person-plus-fill"></i> DAFTAR MAKLUMAT PROJEK</a>
+        </div>
+        <div class = "col-2">
+            <a id="btnExportToCsv" type="button" class="btn btn-success" style="color:white;"><i class="fa fa-arrow-circle-down"></i>   SPREADSHEET</a>
+        </div>
+    </div>
+    <br>
+    <table id="dataTable" class="table table-bordered table-striped table-sm table-responsive">
+        <thead class="bg-primary" style="color:white;">
+        <tr align="center" style="visibility:hidden"  >
+            <th></th>
+            <th colspan="16">                                                                                                                              LAPORAN PROJEK (DILULUSKAN) TAHUN {% if cari_tahun %}{{cari_tahun}}{%else%}{{tahun_sekarang}}{% endif%} SETAKAT {{tarikh_sekarang.strftime("%d-%m-%Y")}}                                                                                                        </th>
+        </tr>
+        <tr align="center" style="visibility:hidden"></tr>
+        <tr>
+            <th scope="col">NO. BILANGAN</th>
+            <th scope="col">NO. SEBUTHARGA</th>
+            <th scope="col">NO. SURATKUASA/WARAN</th>
+            <th scope="col">NAMA PROJEK</th>
+            <th scope="col">MUKIM</th>
+            <th scope="col">KAMPUNG</th>
+            <th scope="col">SUMBER PERUNTUKAN</th>
+            <th scope="col">KONTRAKTOR</th>
+            <th scope="col">PERUNTUKAN DILULUSKAN</th>
+            <th scope="col">BAYAR</th>
+            <th scope="col">BAKI</th>
+            <th scope="col">TARIKH TAWARAN</th>
+            <th scope="col">TARIKH MILIK TAPAK</th>
+            <th scope="col">TEMPOH SIAP</th>
+            <th scope="col">TARIKH JANGKAAN SIAP</th>
+            <th scope="col">TARIKH SEBENAR SIAP</th>
+            <th scope="col">STATUS</th>
+            <th scope="col" hidden>data_ID</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for x in report %}
+        <tr>
+            <td></td>
+            <td>{{x.0}}</td>
+            <td>{{x.1}}</td>
+            <td>{{x.2}}</td>
+            <td>{{x.3}}</td>
+            <td>{{x.4}}</td>
+            <td>{{x.5}}</td>
+            <td>{{x.6}}</td>
+            <td>{{x.7}}</td>
+            <td>{{x.8}}</td>
+            <td>{{x.9}}</td>
+            <td>{{x.10}}</td>
+            <td>{{x.11}}</td>
+            <td>{{x.12}}</td>
+            <td>{{x.13}}</td>
+            <td>{{x.14}}</td>
+            <td>{{x.15}}</td>
+            <td hidden>{{x.16}}</td>
+            <td>
+                <!-- Trigger Modal -->
+                <a type="button" class="btn btn-primary" style="color:white;" data-bs-toggle="modal" data-bs-target="#chart{{x.16}}"><i class="fa fa-pie-chart"></i></a>
+            </td>
+        </tr>
+
+        <!-- Update Modal -->
+        <div class="modal fade" id="chart{{x.16}}" tabindex="-1" aria-labelledby="chartLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title" id="edit" style="color:white;">PERUNTUKAN {{x.1}} </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3 col-auto form-group">
+                            <label for="peruntukan_diluluskan" class="form-label">PERUNTUKAN DILULUSKAN :</label>
+                            <input type="text" class="form-control" id="peruntukan_diluluskan" name="peruntukan_diluluskan" value="{{x.7}}" readonly>
+                        </div>
+                        <br>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <canvas id="test{{x.16}}" width="400" height="400"></canvas>
+                        <script>
+                        var ctx = document.getElementById('test{{x.16}}').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Bayar', 'Baki'],
+                                datasets: [{
+                                    label: 'Peruntukan',
+                                    data: [{{x.8}}, {{x.9}}],
+                                    backgroundColor: [
+                                        'rgb(54, 162, 235)',
+                                        'rgb(255, 99, 132)',
+                                    ],
+                                    hoverOffset: 4
+
+                                }]
+                            },
+                        });
+                        </script>
+                        <br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">TUTUP</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        //javascript to export data table to csv file
+        const dataTable = document.getElementById("dataTable");
+        const btnExportToCsv = document.getElementById("btnExportToCsv");
+
+        btnExportToCsv.addEventListener("click", () => {
+        const exporter = new TableCSVExporter(dataTable);
+        const csvOutput = exporter.convertToCSV();
+        const csvBlob = new Blob([csvOutput], { type: "text/csv" });
+        const blobUrl = URL.createObjectURL(csvBlob);
+        const anchorElement = document.createElement("a");
+        var currentDate = new Date();
+        var dd = String(currentDate.getDate()).padStart(2, '0');
+        var mm = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = currentDate.getFullYear();
+        currentDate = mm + '/' + dd + '/' + yyyy;
+
+        anchorElement.href = blobUrl;
+        anchorElement.download = "LAPORAN PROJEK DILULUSKAN TAHUN "+yyyy+" SETAKAT "+currentDate+".csv";
+        anchorElement.click();
+
+            setTimeout(() => {
+                URL.revokeObjectURL(blobUrl);
+            }, 500);
+        });
+    </script>
+</div>
+
+{% endblock content %}

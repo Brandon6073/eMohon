@@ -1,0 +1,266 @@
+{% extends "layout.html" %}
+{% block link %}
+<link rel="stylesheet" href="../static/css/table.css"/>
+{% endblock %}
+{% block content %}
+<div align="center" class="alert-success" role="alert">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+<div class="container">
+    <br>
+    <a href="/menu" ><i class="bi bi-arrow-left-circle-fill" style="font-size: 2rem;"></i> </a>
+    <br>
+    <div>
+        <h1 align="center">LAPORAN PROJEK NEGERI (DILULUSKAN)</h1>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <form action="/cari_state" method="POST">
+            <div class="row">
+                <label for="tahun" class="col-form-label">TAHUN : </label>
+                <div class="col-sm-2">
+                    <select id="tahun" class="form-control" name="tahun" type="text">
+                        <option selected value = "">SEMUA</option>
+                        {% for tahun in tahun %}
+                        <option  value="{{tahun.0}}" >{{tahun.0}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+
+                <label for="kampung_id" class="col-form-label">KAMPUNG : </label>
+                <div class="col-sm-2">
+                    <select id="kampung_id" class="form-control" name="kampung_id" type="text">
+                        <option selected value = "" >SEMUA</option>
+                        {% for kampung in kampung %}
+                        <option  value="{{kampung.0}}" >{{kampung.0}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+
+                <label for="mukim_id" class="col-form-label">MUKIM : </label>
+                <div class="col-sm-2">
+                    <select id="mukim_id" class="form-control" name="mukim_id" type="text">
+                        <option selected value = "" >SEMUA</option>
+                        {% for mukim in mukim %}
+                        <option  value="{{mukim.0}}" >{{mukim.0}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <input type="text" class="form-control" id="no_projek_waran" name="no_projek_waran" placeholder="NO. SURATKUASA/WARAN">
+                </div>
+
+                <div class="float-right col-auto">
+                    <button type="submit" class="btn btn-primary"  align=right><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr>
+    <div>
+        <button id="btnExportToCsv" type="button" class="btn btn-primary"><i class="fa fa-arrow-circle-down"></i> SPREADSHEET</button>
+    </div>
+    <br>
+    <table id="dataTable" class="table table-bordered table-striped table-sm table-responsive">
+        <thead class="bg-primary" style="color:white;">
+        <tr align="center" style="visibility:hidden"  >
+            <th></th>
+            <th colspan="16">                                                                                                  LAPORAN PROJEK NEGERI (DILULUSKAN) TAHUN {% if cari_tahun %}{{cari_tahun}}{%else%}{{tahun_sekarang}}{% endif%} SETAKAT {{tarikh_sekarang.strftime("%d-%m-%Y")}}
+        <tr align="center" style="visibility:hidden"></tr>
+        <tr>
+            <th scope="col">NO. BILANGAN</th>
+            <th scope="col">NO. SEBUTHARGA</th>
+            <th scope="col">NO. SURATKUASA/WARAN</th>
+            <th scope="col">NAMA PROJEK</th>
+            <th scope="col">MUKIM</th>
+            <th scope="col">KAMPUNG</th>
+            <th scope="col">SUMBER PERUNTUKAN</th>
+            <th scope="col">KONTRAKTOR</th>
+            <th scope="col">PERUNTUKAN DILULUSKAN</th>
+            <th scope="col">BAYAR</th>
+            <th scope="col">BAKI</th>
+            <th scope="col">TARIKH TAWARAN</th>
+            <th scope="col">TARIKH MILIK TAPAK</th>
+            <th scope="col">TEMPOH SIAP</th>
+            <th scope="col">TARIKH JANGKAAN SIAP</th>
+            <th scope="col">TARIK SEBENAR SIAP</th>
+            <th scope="col">STATUS</th>
+            <th hidden>data_ID</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for x in state_list %}
+        <tr>
+            <td></td>
+            <td>{{x.0}}</td>
+            <td>{{x.1}}</td>
+            <td>{{x.2}}</td>
+            <td>{{x.3}}</td>
+            <td>{{x.4}}</td>
+            <td>{{x.5}}</td>
+            <td>{{x.6}}</td>
+            <td>{{x.7}}</td>
+            <td>{{x.8}}</td>
+            <td>{{x.9}}</td>
+            <td>{{x.10}}</td>
+            <td>{{x.11}}</td>
+            <td>{{x.12}}</td>
+            <td>{{x.13}}</td>
+            <td>{{x.14}}</td>
+            <td>{{x.15}}</td>
+            <td hidden>{{x.16}}</td>
+            <td>
+                <!-- Trigger Modal -->
+                <div>
+                    <a href="/update_state/{{x.16}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update{{x.16}}"><i class="fa fa-pencil"></i></a>
+                </div>
+                <br>
+                <div>
+                    <a href="/delete_state/{{x.16}}" class="btn btn-danger btn xs" onclick="return confirm('Hapus maklumat {{x.1}} ?')"><i class="fa fa-trash"></i></a>
+                </div>
+            </td>
+        </tr>
+        <!-- Update Modal -->
+        <div class="modal fade" id="update{{x.16}}" role="dialog" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title" id="edit" style="color:white;">KEMASKINI PROJEK {{x.2}}</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('update_state') }}" method="POST">
+                            <input type="hidden" class="form-control" id="data_ID" name="data_ID" value="{{ x.16 }}">
+                            <div class="mb-3 col-auto form-group">
+                                <label for="sebutharga" class="form-label">NO. SEBUTHARGA :</label>
+                                <input type="text" class="form-control" id="sebutharga" name="sebutharga" value="{{ x.0 }}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="suratkuasa_waran" class="form-label">NO. SURATKUASA/WARAN :</label>
+                                <input type="text" class="form-control" id="suratkuasa_waran" name="suratkuasa_waran" value="{{ x.1 }}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="nama_projek" class="form-label">NAMA PROJEK :</label>
+                                <input type="text" class="form-control" id="nama_projek" name="nama_projek" value="{{x.2}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="mukim" class="form-label">MUKIM :</label>
+                                <input type="text" class="form-control" id="mukim" name="mukim" value="{{x.3}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="kampung" class="form-label">KAMPUNG :</label>
+                                <input type="text" class="form-control" id="kampung" name="kampung" value="{{x.4}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="peruntukan" class="form-label">SUMBER PERUNTUKAN :</label>
+                                <input type="text" class="form-control" id="peruntukan" name="peruntukan" value="{{x.5}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="kontraktor" class="form-label">KONTRAKTOR :</label>
+                                <input type="text" class="form-control" id="kontraktor" name="kontraktor" value="{{x.6}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="peruntukan_diluluskan" class="form-label">PERUNTUKAN DILULUSKAN :</label>
+                                <input type="text" class="form-control" id="peruntukan_diluluskan" name="peruntukan_diluluskan" value="{{x.7}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="bayar" class="form-label">BAYAR :</label>
+                                <input type="text" class="form-control" id="bayar" name="bayar" value="{{x.8}}">
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="baki" class="form-label">BAKI :</label>
+                                <input type="text" class="form-control" id="baki" name="baki" value="{{x.9}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="tawaran" class="form-label">TARIKH TAWARAN :</label>
+                                <input type="text" class="form-control" id="tawaran" name="tawaran" value="{{x.10}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="milik_tapak" class="form-label">TARIKH MILIK TAPAK :</label>
+                                <input type="text" class="form-control" id="milik_tapak" name="milik_tapak" value="{{x.11}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="tempoh_siap" class="form-label">TEMPOH SIAP :</label>
+                                <input type="text" class="form-control" id="tempoh_siap" name="tempoh_siap" value="{{x.12}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="jangkaan_siap" class="form-label">TARIKH JANGKAAN SIAP :</label>
+                                <input type="text" class="form-control" id="jangkaan_siap" name="jangkaan_siap" value="{{x.13}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="sebenar_siap" class="form-label">TARIKH SEBENAR SIAP :</label>
+                                <input type="text" class="form-control" id="sebenar_siap" name="sebenar_siap" value="{{x.14}}">
+                            </div>
+
+                            <div class="mb-3 col-auto form-group">
+                                <label for="status" class="form-label">STATUS :</label>
+                                <input type="text" class="form-control" id="status" name="status" value="{{x.15}}">
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="row">
+                                    <div class="col-auto"></div>
+                                    <div class="col-auto form-group" align="left">
+                                        <button type="submit"  class="btn bg-primary" style="color:white;">SIMPAN</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        //javascript to export data table to csv file
+        const dataTable = document.getElementById("dataTable");
+        const btnExportToCsv = document.getElementById("btnExportToCsv");
+
+        btnExportToCsv.addEventListener("click", () => {
+        const exporter = new TableCSVExporter(dataTable);
+        const csvOutput = exporter.convertToCSV();
+        const csvBlob = new Blob([csvOutput], { type: "text/csv" });
+        const blobUrl = URL.createObjectURL(csvBlob);
+        const anchorElement = document.createElement("a");
+        var currentDate = new Date();
+        var dd = String(currentDate.getDate()).padStart(2, '0');
+        var mm = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = currentDate.getFullYear();
+        currentDate = dd + '/' + mm + '/' + yyyy;
+
+        anchorElement.href = blobUrl;
+        anchorElement.download = "LAPORAN PROJEK NEGERI DILULUSKAN TAHUN "+yyyy+" SETAKAT "+currentDate+".csv";
+        anchorElement.click();
+
+        setTimeout(() => {
+            URL.revokeObjectURL(blobUrl);
+        }, 500);
+    });
+    </script>
+</div>
+        {% endblock content %}

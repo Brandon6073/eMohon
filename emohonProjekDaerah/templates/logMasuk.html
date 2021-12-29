@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% block title %}Log Masuk {% endblock %}
+
+{%block link%}<link rel="stylesheet" href="../static/css/background-photo.css">
+{%endblock%}
+
+{% block nav %}<nav></nav>{% endblock %}
+{% block content%}
+
+<div class="background-image"></div>
+
+
+  <div class = "col-lg-8" id ="box-login" >
+  <form action="/" method="POST" autocomplete="off">
+    <div align="middle" >
+      <img class="logo" src="../static/logo-jata-sabah.png" alt="logo" width="11%" height="21%" >
+      <div>
+        <h3 align="center" > eMohon Projek Daerah Tambunan</h3>
+        <br>
+        <br>
+        <div class="col-lg-6" align=center >
+          <div class="form-group">
+            <label for="kampung_id"> KAMPUNG:</label>
+            <select 
+            id="kampung_id" 
+            name="kampung_id"
+            type="text"
+            class="form-control"
+            >
+            <option disabled selected >SILA PILIH</option>
+            {%for kampung in data %}
+
+                <option  value="{{kampung.0}}" >{{kampung.1}}</option>
+
+             {% endfor%}
+    
+            </select>
+          </div>
+              
+          <div class="form-group" >
+            <label for="ic_pengguna"  >NOMBOR KAD PENGENALAN:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="ic_pengguna"
+              name="ic_pengguna"
+              placeholder="CONTOH: 111111121111"
+                
+            />
+          </div>
+
+          <div class="form-group" >
+            <label for="kata_laluan"  >KATA LALUAN:</label>
+            <input
+              type="password"
+              class="form-control"
+              id="kata_laluan"
+              name="kata_laluan"
+              placeholder="SILA GUNA NO. KAD PENGENALAN"
+                
+            />
+          </div>
+          
+          <br />
+          <div align= center>
+          <button type="submit" class="btn btn-primary" align="center">LOG MASUK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br>
+  <br>
+</div>
+
+
+
+  {% endblock %}
+  

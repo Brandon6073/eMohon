@@ -1,0 +1,83 @@
+{% extends "base.html" %} {% block title %}FAIL DIMUAT NAIK{% endblock %} 
+
+{% block content%}
+
+<a href="/laporan_projek" ><i class="bi bi-arrow-left-circle-fill" style="font-size: 2rem;"></i></a>
+<h1 align="center">eMohon Projek Daerah Tambunan</h1><br>
+<h3 align="center">PERMOHONAN PROJEK</h3><hr>
+
+<div class="row"></div>
+
+<table class="table table-striped table-dark">
+<tr align="center">
+    <th>GAMBAR 1 (HADAPAN)</th>
+    <th>GAMBAR 2 (BELAKANG)</th>
+    <th>GAMBAR 3 (SISI)</th>
+
+</tr>
+<tr>
+    
+    <td>
+        <img src={{gambar1}} alt="gambar1"  width="300" height="200">
+    </td>
+    
+    <td>
+        <img src={{gambar2}} alt="gambar2"  width="300" height="200">
+    </td>
+
+    <td>
+        <img src={{gambar3}} alt="gambar3"  width="300" height="200">
+    </td>
+
+
+</tr>
+<tr>
+    <td>
+        <form action="/muat_turun_gambar_1" method="POST">
+            <div class="d-flex justify-content-center"> 
+                <button type="submit" class="btn btn-primary" id="gambar1" name="gambar1" value={{gambar1}}>MUAT TURUN</button>
+            </div>
+        </form>
+    </td>
+    
+    <td>
+        <form action="/muat_turun_gambar_2" method="POST">
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary" id="gambar2" name="gambar2" value={{gambar2}}>MUAT TURUN</button>
+            </div>
+        </form>
+    </td>
+
+    <td>
+        <form action="/muat_turun_gambar_3" method="POST">
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary" id="gambar3" name="gambar3" value={{gambar3}}>MUAT TURUN</button>
+            </div>
+        </form>
+    </td>
+
+
+</tr>
+</div>
+
+<tr>   
+</td>
+    <embed src={{dokumenPdf}} type="application/pdf" width="100%" height="800px"/>
+
+    <form action="/muat_turun_dokumen_pdf" method="POST">
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary" id="dokumenPdf" name="dokumenPdf" value={{dokumenPdf}}>MUAT TURUN</button>
+        </div>
+    </form>
+    <br>
+
+</td>
+</tr>
+
+
+</table>
+
+   
+    
+
+{% endblock %}

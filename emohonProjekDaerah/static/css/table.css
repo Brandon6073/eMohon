@@ -1,0 +1,22 @@
+table {
+    font-size: small;
+}
+
+body {
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+tr td:first-child:before {
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content: counter(Serial);
+}
+
+.zoom {
+  zoom: 100%
+}
+
+input,
+input::placeholder {
+    font-size: 14px;
+    line-height: 3;
+}

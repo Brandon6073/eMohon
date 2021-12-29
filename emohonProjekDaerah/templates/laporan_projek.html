@@ -1,0 +1,199 @@
+{% extends "base.html" %} {% block title %}LAPORAN PERMOHONAN PROJEK{% endblock %} 
+{%block link%}
+<link rel="stylesheet" href="../static/css/table-laporan-permohonan.css">
+{%endblock%}
+
+{% block content%}
+
+<a href="/menu" ><i class="bi bi-arrow-left-circle-fill" style="font-size: 2rem;"></i> </a>
+
+
+<h1 align="center">eMohon Projek Daerah Tambunan</h1><br>
+<h3 align="center">LAPORAN PERMOHONAN PROJEK</h3><hr>
+<!--<div class="msg">{{ msg }}</div>-->
+
+<div class="col-sm-12">
+ <form action="/cari_laporan" method="POST">
+
+    <div class="row">
+       <label for="cari_tahun" class="col-sm-1 col-form-label">TAHUN: </label>
+       <div class="col-sm-2">
+        <select id="cari_tahun" class="form-control" name="cari_tahun" type="text">
+            <option selcted value = "" >SEMUA</option>
+            
+            {%for tahun in data_tahun %}
+                <option  value="{{tahun.0}}" >{{tahun.0}}</option>
+            {% endfor%}
+
+            </select> 
+       </div>
+    
+
+    
+        <label for="cari_mukim" class="col-sm-1 col-form-label">MUKIM: </label>
+        <div class="col-sm-2">
+
+            <select id="cari_mukim" class="form-control" name="cari_mukim" type="text">
+            <option selcted value = "" >SEMUA</option>
+            
+            {%for mukim in data_mukim %}
+                <option  value="{{mukim.0}}" >{{mukim.0}}</option>
+            {% endfor%}
+
+            </select> 
+        </div>
+    
+        <label for="cari_kampung" class="col-sm-1 col-form-label">KAMPUNG: </label>
+        <div class="col-sm-2">
+
+            <select id="cari_kampung" class="form-control" name="cari_kampung" type="text">
+                <option selcted value = "" >SEMUA</option>
+                
+                {%for kampung in data_kampung %}
+                    <option  value="{{kampung.0}}" >{{kampung.0}}</option>
+                {% endfor%}
+    
+                </select> 
+        </div>
+        <div class="col-sm-2">
+
+        <div class="float-right">
+            
+            <button  type="submit" class="btn btn-primary" >CARI <i class="bi bi-search"></i></button>
+        </div>
+    </div>
+       
+    </div>
+
+
+    
+ </form>
+ <br><hr>
+ <div>
+    <button id="btnExportToCsv" type="button" class="btn-success"> <i class="bi bi-file-earmark-arrow-down"></i> SPREADSHEET</button>    
+</div>
+<br>
+ 
+
+ <div class="table-responsive">
+    <table class="table table-striped table-sm" id = "dataTable">
+        
+        <tr align="center"  style="visibility:hidden" >
+
+            <th></th>
+            <th colspan="13">                                                                                                                                               PERMOHONAN PROJEK TAHUN {%if cari_tahun%}{{cari_tahun}}{%else%}{{tahun_sekarang}}{% endif%} SETAKAT {{tarikh_sekarang.strftime("%d-%m-%Y")}}                                                                                                                         </th>
+           
+
+        </tr>
+        <tr align="center" style="visibility:hidden"></tr>
+        
+        
+        <tr align="center">
+            <th>NO.</th>
+            
+            {% for header in headings %}
+            <th>{{ header}}</th>
+            {% endfor %}
+        </tr>
+        
+
+        {% for row in data %}
+        <tr align="center">
+            <td></td>
+            <td>{{row.0}}</td>
+            <td>{{row.1}}</td>
+            <td>{{row.2}}</td>
+            <td>{{row.3}}</td>
+            <td>{{row.4}}</td>
+            <td>{{row.5}}</td>
+            <td>{{row.6}}</td>
+            <td>{{row.7}}</td>
+            <td>{{row.8}}</td>
+            <td>{{row.9}}</td>
+            <td>{{row.10}}</td>
+            <td>{{row.11}}</td>
+            <td>{{row.12}}</td>
+     
+            
+
+
+            <td>
+                <br>
+            <form action="/periksa_fail" method="POST">
+                <button class="btn btn-info" type="submit" id="periksa" name="periksa" value={{row.0}} > <i class="bi bi-file-earmark-post"></i>SEMAK DOKUMEN</button>
+            </form>
+            <br>
+            <form action="/download_all" method="POST">
+                <button class="btn btn-info " type="submit" id="periksa" name="periksa" value={{row.0}} > <i class="bi bi-download"></i> MUAT TURUN</button>
+
+            </form>
+            <!--kemas_kini_projek
+            <br>
+            <form action="/#" method="POST">
+                <button class="btn btn-info" type="submit" id="periksa" name="periksa" value={{row.0}} >KEMAS KINI</button>
+
+            </form>
+
+            -->
+
+             </td>
+             
+             <td>
+                <br>
+            
+            <form action="/kemaskini_permohonan" method="POST">
+                <button class="btn btn-primary" type="submit" id="id_permohonan" name="id_permohonan" value={{row.0}} > <i class="bi bi-pen"></i></button>
+            </form>
+            {%if user %}
+            <!--only penyelengara can delete-->
+            <br>
+            
+            <form action="/hapus_permohonan" method="POST">
+                <button class="btn btn-danger " type="submit" id="id_permohonan" name="id_permohonan" value={{row.0}} onclick="return confirm('HAPUSKAN REKOD?')" ><i class="bi bi-trash"></i></button>
+            
+            </form>
+            {%endif%}
+
+
+            </td>
+             
+
+            
+            
+            
+        </tr>
+        {% endfor %}
+
+    </table>
+    
+ </div>
+</div>
+<script src = "../static/js/TableCSVExporter.js"></script>
+<script>
+    const dataTable = document.getElementById("dataTable");
+    const btnExportToCsv = document.getElementById("btnExportToCsv");
+
+    btnExportToCsv.addEventListener("click", () => {
+        const exporter = new TableCSVExporter(dataTable);
+        const csvOutput = exporter.convertToCSV();
+        const csvBlob = new Blob([csvOutput], { type: "text/csv" });
+        const blobUrl = URL.createObjectURL(csvBlob);
+        const anchorElement = document.createElement("a");
+        var currentDate = new Date();
+        var dd = String(currentDate.getDate()).padStart(2, '0');
+        var mm = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = currentDate.getFullYear();
+        currentDate =  dd + '/' + mm + '/' + yyyy;
+
+        anchorElement.href = blobUrl;
+        anchorElement.download ="PERMOHONAN PROJEK TAHUN "+yyyy+" SETAKAT "+currentDate+".csv";
+        anchorElement.click();
+
+        setTimeout(() => {
+            URL.revokeObjectURL(blobUrl);
+        }, 500);
+    });
+</script>
+
+
+{% endblock %}

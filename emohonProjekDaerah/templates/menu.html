@@ -1,0 +1,109 @@
+{% extends "base.html" %} {% block title %}LAMAN UTAMA PENGURUSAN PROJEK{% endblock %}
+{%block link%}<link rel="stylesheet" href="../static/css/background-photo.css">
+{%endblock%}
+
+{% block content%}
+
+<div class="background-image"></div>
+      
+<h1 align="center">eMohon Projek Daerah</h1>
+
+
+  
+
+    <br>
+    <h3 align="center">LAMAN UTAMA PENGURUSAN PROJEK</h3>
+    <br>
+    
+    <br><br><br><br><br><br>
+    
+    <div class = "row" id ="box-menu" align=center>
+
+      <div class="col-sm-2">
+
+        <div class="dropdown show">
+          <a class="btn " href="#"  data-toggle="dropdown">
+            <!--style="font-size: 3rem; color: rgb(0, 49, 139);"-->
+            <i class="bi bi-clipboard" style="font-size: 3rem;" ></i>
+            <h4 >LAPORAN</h4>
+          </a>
+        
+          <div class="dropdown-menu" >
+            <li>
+            <a class="dropdown" href="/laporan_projek"><i class="bi bi-clipboard-data" ></i> PERMOHONAN PROJEK</a>
+            </li>
+
+            <li>
+            <a class="dropdown" href="/report_list"><i class="bi bi-clipboard-check"></i>PERMOHONAN (DILULUSKAN)</a>
+          </li>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-2">
+        <a class="btn " href="/maklumat_pengguna">
+          <i class="bi bi-people-fill" style="font-size: 3rem;" ></i>
+          <h4 >PENGGUNA</h4>
+        </a>
+      </div>
+
+<!--
+            <a class="dropdown" href="/daftar_kampung">MAKLUMAT KAMPUNG</a>
+            <a class="dropdown" href="/daftar_pengguna">MAKLUMAT PENGGUNA</a>
+            <a class="dropdown" href="/daftar_jenis_permohonan"> JENIS PERMOHONAN</a>
+            <a class="dropdown" href="/input">MAKLUMAT PROJEK (LULUS)</a>
+              <a class="dropdown" href="/kemas_kini_kampung">KEMAS KINI MAKLUMAT KAMPUNG</a>
+              <a class="dropdown" href="/kemas_kini_pengguna">KEMAS KINI MAKLUMAT PENGGUNA</a>
+              <a class="dropdown" href="/kemas_kini_jenis_permohonan">KEMAS KINI JENIS PERMOHONAN</a>
+              <a class="dropdown" href="/federal">KEMAS KINI LAPORAN PROJEK (PERSEKUTUAN)</a>
+              <a class="dropdown" href="/state">KEMAS KINI LAPORAN PROJEK (NEGERI)</a>
+-->
+      <div class="col-sm-2">
+        <a class="btn " href="/maklumat_kampung">
+          <i class="bi bi-map" style="font-size: 3rem;" ></i>
+          <h4 >KAMPUNG</h4>
+        </a>
+      </div>
+
+      <div class="col-sm-3">
+        <a class="btn " href="/jenis_permohonan">
+          <i class="bi bi-files" style="font-size: 3rem;" ></i>
+          <h4 >JENIS PERMOHONAN</h4>
+        </a>
+      </div>
+
+        <div class="col-sm-2">
+
+          <div class="dropdown show">
+            <a class="btn " href="#"  data-toggle="dropdown" >
+              <i class="bi bi-file-earmark-fill" style="font-size: 3rem;" ></i>
+              <h4 >MAKLUMAT PROJEK</h4>
+            </a>
+          
+            <div class="dropdown-menu" >
+              <a class="dropdown" href="/federal"><i class="bi bi-geo-alt"></i>PERSEKUTUAN</a>
+              <a class="dropdown" href="/state"><i class="bi bi-geo-alt-fill"></i>NEGERI</a>
+
+            </div>
+          </div>
+      </div>
+      <!--
+      {%if user %}
+
+      
+
+      <div class="col-sm-6">
+        <a class="d-block" href="#">
+          <h4 >HAPUS REKOD</h4>
+        </a>
+      </div>
+  
+    {%endif%}
+    -->
+      </div>
+  </div>
+
+
+     
+  {% endblock %}
+  

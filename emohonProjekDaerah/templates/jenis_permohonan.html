@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block title %}JENIS PERMOHONAN{% endblock %} 
+{%block link%}
+<link rel="stylesheet" href="../static/css/table-laporan-permohonan.css">
+{%endblock%}
+
+{% block content%}
+
+<a href="/menu" ><i class="bi bi-arrow-left-circle-fill" style="font-size: 2rem;"></i></a>
+
+<h1 align="center">eMohon Projek Daerah Tambunan</h1><br>
+<h3 align="center">JENIS PERMOHONAN</h3><hr>
+<!--<div class="msg">{{ msg }}</div>-->
+
+<div class="col-sm-12">
+ 
+
+ <div>
+    <a class="btn btn-primary " href="/daftar_jenis_permohonan">
+        <i class="bi bi-file-earmark-plus"></i>
+         DAFTAR JENIS PERMOHONAN
+      </a>    
+</div>
+<br>
+ 
+
+ <div class="table-responsive">
+    <table class="table table-striped table-sm" id = "dataTable">
+        <tr align="center">
+            
+            {% for header in headings %}
+            <th>{{ header}}</th>
+            {% endfor %}
+        </tr>
+        
+
+        {% for row in data %}
+        <tr align="center">
+            <td></td>
+            <td>{{row.0}}</td>
+            <td>{{row.1}}</td>
+
+
+
+            <td>
+                <br>
+                <form action="/kemaskini_jenis_permohonan" method="POST">
+
+                    <button class="btn btn-primary" type="submit" id="jenis_permohonan" name="jenis_permohonan" value="{{row.1}}" > <i class="bi bi-pen"></i></button>
+                </form>
+                {%if user %}
+                <!--only penyelengara can delete-->
+                <br>
+                
+                <form action="/hapus_jenis_permohonan" method="POST">
+                    <button class="btn btn-danger " type="submit" id="jenis_permohonan" name="jenis_permohonan" value="{{row.1}}"  onclick="return confirm('HAPUSKAN JENIS PERMOHONAN?')" ><i class="bi bi-trash"></i></button>
+                
+                </form>
+                {%endif%}
+
+
+            </td> 
+        </tr>
+        {% endfor %}
+
+    </table>
+    
+ </div>
+</div>
+
+
+{% endblock %}
